@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ChatBot</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <!-- This is a just example for loading the React external library -->
+    <script src="https://unpkg.com/supersimpledev@8.6.4/external-library.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+            function ChatInput() {
+              return (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Send a message to ChatBot"
+                    size="30"
+                  />
+                  <button>Send</button>
+                </>
+              );
+            }
+
+            function ChatMessage(props) {
+              // const message = props.message;
+              // const sender = props.sender;
+              // else we can do this by DESTRUCTURING
+              const { message, sender } = props;
+              /*
+              if(sender === 'robot'){
+                  return (
+                  <div>
+                  <img src="robot.png" width="25"/>
+                  {message}
+                  </div>
+                  );
+              }
+      */
+
+              return (
+                <div>
+                  {sender === "robot" && <img src="robot.png" width="25" />}
+                  {message}
+                  {sender === "user" && <img src="user.png" width="25" />}
+                </div>
+              );
+            }
+
+            function App() {
+              return (
+                <>
+                    <ChatInput />
+                    <ChatMessage 
+                        message="hello chatbot" 
+                        sender="user" 
+                    />
+                    <ChatMessage 
+                        message="Hello! How can I help you?" 
+                        sender="robot" 
+                    />
+                    <ChatMessage 
+                        message="i need some info about react" 
+                        sender="user" 
+                    />
+                    <ChatMessage
+                        message="Sorry, I didn't quite understand that. Currently, I only know how to flip a coin, roll a dice, or get today's date. Let me know how I can help!"
+                        sender="robot"
+                    />
+                </>
+              );
+            }
+
+            // Setup React and use .render()
+            const container = document.querySelector(".js-container");
+            ReactDOM.createRoot(container).render(<App/>);
+    </script>
+  </body>
+</html>
+
+<!-- 
+Fragment = empty tag that can hold multiple elements without adding extra nodes to the DOM.
+Component = function that returns a piece of UI.
+props = arguments passed into React components.
+      = make components reusable.
+Destructuring, Guard operator(&&)
+-->

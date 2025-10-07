@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Just Click</title>
+</head>
+<body>
+    <div class="js-container"></div>
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+        function Counter({count, setCount}){
+            
+            function increment(){
+                setCount(count + 1);
+            }
+            
+            return(
+                <div>
+                    <button onClick={increment}>Clicked {count} times</button>
+                    </div>
+                );
+            }
+        function Reset({count, setCount}){
+            function resetCount(){
+                setCount(0);
+            }
+            return(
+                <>
+                    <button onClick={resetCount}>Reset</button>
+                </>
+            );
+        }
+        function App(){
+            const[count, setCount] = React.useState(0);
+            return(
+            <>
+
+                <Counter count={count} setCount={setCount}/>
+                <Counter count={count} setCount={setCount}/>
+                <Reset count={count} setCount={setCount} />
+            </>
+            );
+        }
+
+        const container = document.querySelector(".js-container");
+        ReactDOM.createRoot(container).render(<App />);
+    </script>
+</body>
+</html>
+
+
+
+
+<!-- 
+create BUTTON
+display number of times button is clicked on Console Window
+show counts on console window (viz not needed in this onClick event)
+create that BUTTON with counts shown on it when clicked i.e. use React.useState(0)
+create Counter Component separately by just copy paste the content of App Component
+create two counters on WebPage by using the same Counter component(here both counter shows different values of counts)
+create a single state in App component and pass it to both Counter components(in form of props) so that both counters show same value of counts(LIFT UP THE STATE)
+
+-->

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <!-- This is a just example for loading the React external library -->
+    <script src="https://unpkg.com/supersimpledev@8.6.4/external-library.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      const productCost = (1 * 10) + (2 * 8);
+      const shippingCost = 5;
+      const totalCost = productCost + shippingCost;
+      const clock = (dayjs().format("h:mm:ss A"));
+      const div = (
+        <div>
+          <h1>Hello World</h1>
+          <p>This is my first React website</p>
+          <p>{dayjs().format("MMMM D, YYYY HH:mm:ss A")}</p>
+          <p>Product Cost: ${productCost}</p>
+          <p>Product Cost: ${shippingCost}</p>
+          <p>Product Cost: ${totalCost}</p>
+          <button>Place your Order</button>
+          </div>
+      );
+      // Setup React and use .render()
+      const container = document.querySelector(".js-container");
+      const root = ReactDOM.createRoot(container);
+
+      setInterval(() => {root.render(clock)},1000);
+
+    </script>
+  </body>
+</html>
+
+<!--
+React is an external library that helps us create website easier.
+External library is a bunch of code that is outside our computer.
+React can be used in different places
+React = shared features
+ReactDOM = features specific to websites
+Using React to create a website
+  = load React and ReactDOM
+Using React to create a mobile app
+  = load React and ReactNative
+Babel = Javascript Compiler that translates other languages into JavaScript.
+JSX is javascript with HTML inside.
+
+ 
+
+-->

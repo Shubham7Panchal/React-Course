@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ChatBot</title>
+</head>
+<body>
+    <div class="js-container"></div>
+     <script src="https://unpkg.com/supersimpledev/react.js"></script>
+     <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+     <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+     <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+     <script type="text/babel">
+        function ChatInput({chatMessages, setChatMessages}){
+            const [inputText, setInputText] = React.useState('');
+            const [isLoading, setIsLoading] = React.useState(false);
+
+            function saveInputText(event){
+                setInputText(event.target.value); 
+            }
+
+            async function sendMessage(){
+                if(isLoading || inputText === ''){
+                    return;
+                }
+                setIsLoading(true);
+                setInputText('');
+                const newChatMessages = [
+                    ...chatMessages, 
+                    {message: inputText, sender: "user", id: crypto.randomUUID()}
+                ];
+                setChatMessages([
+                    ...newChatMessages, 
+                    {message: "Loading...", sender: "robot", id: crypto.randomUUID()} 
+                ]);
+                
+                
+                try{
+                    const response = await Chatbot.getResponseAsync(inputText);
+                    setChatMessages([
+                        ...newChatMessages, 
+                        {message: response, sender: "robot", id: crypto.randomUUID()}
+                    ]);
+                }catch(error){
+                    setChatMessages([
+                        ...newChatMessages, 
+                        {message: "Error. Please try again later.", sender: "robot", id: crypto.randomUUID()}
+                    ]);
+                }finally{
+                    setIsLoading(false);
+                }
+
+            }
+            function handleKeyDown(event){
+                if(event.key === 'Enter'){
+                    sendMessage();
+                }else if(event.key === 'Escape'){
+                    setInputText('');
+                }
+            }
+
+            return(
+                <>
+                <input type="text" placeholder="type message to chatbot..." size="30" onChange={saveInputText} value={inputText} onKeyDown={handleKeyDown}/>
+                <button onClick={sendMessage}>Send</button>
+                </>
+            );
+        }
+
+
+        function ChatMessageFormat({message, sender}){
+            return(
+                <div>
+                {sender === "robot" && <img src="robot.png" width="25" />}
+                {message}
+                {sender === "user" && <img src="user.png" width="25" />}
+                </div>
+            );
+        }
+
+
+        function ChatMessage({chatMessages}){
+            return(
+                <>
+                {chatMessages.map((chatMessage) => {
+                    return(
+                        <ChatMessageFormat 
+                        message={chatMessage.message} 
+                        sender={chatMessage.sender} 
+                        key={chatMessage.id}
+                        />  
+                    );
+                })}
+                </>
+            );
+        }  
+
+
+        function App(){
+            const [chatMessages, setChatMessages] = React.useState([
+                {message: "Hello, chatbot", sender: "user", id: "id1"},
+                {message: "Hy, How can i help you today", sender: "robot", id: "id2"},
+                {message: "tell me the time", sender: "user", id: "id3"},
+                {message: `this is ${dayjs().format('HH:mm:ss A')}`, sender: "robot", id: "id4"}
+            ]);
+            // const [chatMessages, setChatMessages] = array;  //Array Destructuring
+            // const chatMessages = array[0];
+            // const setChatMessages = array[1];
+
+        
+
+            return (
+                <>
+                <ChatInput chatMessages={chatMessages} setChatMessages={setChatMessages}/>
+                <ChatMessage chatMessages={chatMessages}/>
+                </>
+            );
+        }
+     const container = document.querySelector(".js-container");
+     ReactDOM.createRoot(container).render(<App />);
+     </script>
+</body>
+</html>
+
+
+<!-- 
+Event Handler = runs a function when we interact with the website, in other words, function that runs when an event happens.
+onClick = event handler that runs when we click on something
+onChange = event handler that runs when something changes, like typing in an input box
+
+State = data that is connected to the html
+when we update the state, the html automatically updates
+
+In React, we should not update the data directly.we should always create a copy and them modify the copy.(This helps React be more efficient)
+
+Spread Operator (...) takes the value of an array and copies it into a new array.
+
+event is an object that contains detail about the event or about the Change.
+-->

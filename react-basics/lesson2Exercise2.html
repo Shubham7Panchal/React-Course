@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>eCommerce</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+      function SearchInput() {
+        return (
+          <>
+            <input type="text" placeholder="search the product" size="30" />
+            <button>Search</button>
+            <hr />
+          </>
+        );
+      }
+
+      function ProductDetail(props) {
+        const {productName, productPrice, discount, imagesrc} = props;
+
+        return (
+          <div>
+            <img src={imagesrc} alt={productName} width="100" />
+            <br/>
+            {productName}
+            {discount === 'given' && <del><p>Price: ${productPrice}</p></del>}
+            {discount === 'Notgiven' && <p>Price: ${productPrice}</p>}
+            {discount === 'given' && <p>Discount Price : ${productPrice-(productPrice*0.3)}</p>}
+            <button>Add to Cart</button>
+            <hr />
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+            <>
+                <SearchInput />
+                <ProductDetail productName="Cotton Socks" productPrice="5.7" discount="given" imagesrc="cotton-socks.png"/>
+                <ProductDetail productName="Tennis Balls" productPrice="14" discount="Notgiven" imagesrc="tennis-balls.png"/>
+                <ProductDetail productName="Plain Tshirt" productPrice="36.25" discount="given" imagesrc="plain-t-shirt.png"/>
+                <ProductDetail productName="Jockey Underwear" productPrice="25" discount="Notgiven" imagesrc=""/>
+            </>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
